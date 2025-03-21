@@ -14,6 +14,15 @@
 		5B3927D82D892D7100704FB8 /* MustacheVideoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3927D72D892D7100704FB8 /* MustacheVideoAppTests.swift */; };
 		5B3927E22D892D7100704FB8 /* MustacheVideoAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3927E12D892D7100704FB8 /* MustacheVideoAppUITests.swift */; };
 		5B3927E42D892D7100704FB8 /* MustacheVideoAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3927E32D892D7100704FB8 /* MustacheVideoAppUITestsLaunchTests.swift */; };
+		5B3927FC2D8931A900704FB8 /* VIdeoRecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3927FB2D8931A900704FB8 /* VIdeoRecordingView.swift */; };
+		5B3927FE2D8931BC00704FB8 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3927FD2D8931BC00704FB8 /* ARViewContainer.swift */; };
+		5B3928002D8931C900704FB8 /* RecordingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3927FF2D8931C900704FB8 /* RecordingListView.swift */; };
+		5B3928022D8A22C700704FB8 /* Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3928012D8A22C700704FB8 /* Recording.swift */; };
+		5B3928042D8A240B00704FB8 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3928032D8A240B00704FB8 /* PersistenceController.swift */; };
+		5B3928072D8A333800704FB8 /* MustacheModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5B3928052D8A333800704FB8 /* MustacheModel.xcdatamodeld */; };
+		5B3928092D8A4FE400704FB8 /* ARViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3928082D8A4FE400704FB8 /* ARViewModel.swift */; };
+		5B39280B2D8A523900704FB8 /* ARVideoRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39280A2D8A523900704FB8 /* ARVideoRecorder.swift */; };
+		5B39280D2D8CE47500704FB8 /* RecordingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39280C2D8CE47500704FB8 /* RecordingCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +53,15 @@
 		5B3927DD2D892D7100704FB8 /* MustacheVideoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MustacheVideoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B3927E12D892D7100704FB8 /* MustacheVideoAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MustacheVideoAppUITests.swift; sourceTree = "<group>"; };
 		5B3927E32D892D7100704FB8 /* MustacheVideoAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MustacheVideoAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5B3927FB2D8931A900704FB8 /* VIdeoRecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIdeoRecordingView.swift; sourceTree = "<group>"; };
+		5B3927FD2D8931BC00704FB8 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
+		5B3927FF2D8931C900704FB8 /* RecordingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingListView.swift; sourceTree = "<group>"; };
+		5B3928012D8A22C700704FB8 /* Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recording.swift; sourceTree = "<group>"; };
+		5B3928032D8A240B00704FB8 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		5B3928062D8A333800704FB8 /* MustacheModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MustacheModel.xcdatamodel; sourceTree = "<group>"; };
+		5B3928082D8A4FE400704FB8 /* ARViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewModel.swift; sourceTree = "<group>"; };
+		5B39280A2D8A523900704FB8 /* ARVideoRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARVideoRecorder.swift; sourceTree = "<group>"; };
+		5B39280C2D8CE47500704FB8 /* RecordingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,10 +112,12 @@
 		5B3927C52D892D7000704FB8 /* MustacheVideoApp */ = {
 			isa = PBXGroup;
 			children = (
-				5B3927C62D892D7000704FB8 /* MustacheVideoAppApp.swift */,
-				5B3927C82D892D7000704FB8 /* ContentView.swift */,
+				5B3927F72D892E1F00704FB8 /* Data */,
+				5B3927F12D892D8900704FB8 /* Features */,
+				5B3927F02D892D8200704FB8 /* App */,
 				5B3927CA2D892D7100704FB8 /* Assets.xcassets */,
 				5B3927CC2D892D7100704FB8 /* Preview Content */,
+				5B3928052D8A333800704FB8 /* MustacheModel.xcdatamodeld */,
 			);
 			path = MustacheVideoApp;
 			sourceTree = "<group>";
@@ -125,6 +145,93 @@
 				5B3927E32D892D7100704FB8 /* MustacheVideoAppUITestsLaunchTests.swift */,
 			);
 			path = MustacheVideoAppUITests;
+			sourceTree = "<group>";
+		};
+		5B3927F02D892D8200704FB8 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				5B3927C62D892D7000704FB8 /* MustacheVideoAppApp.swift */,
+				5B3927C82D892D7000704FB8 /* ContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		5B3927F12D892D8900704FB8 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				5B3927F62D892E0400704FB8 /* Utils */,
+				5B3927F52D892DD800704FB8 /* ViewModels */,
+				5B3927F42D892DC700704FB8 /* Components */,
+				5B3927F32D892DBB00704FB8 /* Recording */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		5B3927F22D892D9700704FB8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5B3927FB2D8931A900704FB8 /* VIdeoRecordingView.swift */,
+				5B3927FD2D8931BC00704FB8 /* ARViewContainer.swift */,
+				5B3927FF2D8931C900704FB8 /* RecordingListView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5B3927F32D892DBB00704FB8 /* Recording */ = {
+			isa = PBXGroup;
+			children = (
+				5B3927F22D892D9700704FB8 /* Views */,
+			);
+			path = Recording;
+			sourceTree = "<group>";
+		};
+		5B3927F42D892DC700704FB8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5B39280C2D8CE47500704FB8 /* RecordingCell.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		5B3927F52D892DD800704FB8 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5B3928082D8A4FE400704FB8 /* ARViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		5B3927F62D892E0400704FB8 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5B39280A2D8A523900704FB8 /* ARVideoRecorder.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		5B3927F72D892E1F00704FB8 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				5B3927FA2D892E4600704FB8 /* Persistance */,
+				5B3927F82D892E3200704FB8 /* Models */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		5B3927F82D892E3200704FB8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5B3928012D8A22C700704FB8 /* Recording.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5B3927FA2D892E4600704FB8 /* Persistance */ = {
+			isa = PBXGroup;
+			children = (
+				5B3928032D8A240B00704FB8 /* PersistenceController.swift */,
+			);
+			path = Persistance;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,8 +364,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B3928092D8A4FE400704FB8 /* ARViewModel.swift in Sources */,
+				5B39280D2D8CE47500704FB8 /* RecordingCell.swift in Sources */,
 				5B3927C92D892D7000704FB8 /* ContentView.swift in Sources */,
+				5B39280B2D8A523900704FB8 /* ARVideoRecorder.swift in Sources */,
+				5B3928042D8A240B00704FB8 /* PersistenceController.swift in Sources */,
+				5B3928022D8A22C700704FB8 /* Recording.swift in Sources */,
+				5B3928002D8931C900704FB8 /* RecordingListView.swift in Sources */,
+				5B3927FE2D8931BC00704FB8 /* ARViewContainer.swift in Sources */,
+				5B3928072D8A333800704FB8 /* MustacheModel.xcdatamodeld in Sources */,
 				5B3927C72D892D7000704FB8 /* MustacheVideoAppApp.swift in Sources */,
+				5B3927FC2D8931A900704FB8 /* VIdeoRecordingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,8 +538,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MustacheVideoApp/Preview Content\"";
+				DEVELOPMENT_TEAM = RAHQYGT3S7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"This app needs camera access to apply AR filters and record videos";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "\"This app uses face tracking to apply filters\"";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"This app needs microphone access\" ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -450,8 +570,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MustacheVideoApp/Preview Content\"";
+				DEVELOPMENT_TEAM = RAHQYGT3S7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"This app needs camera access to apply AR filters and record videos";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "\"This app uses face tracking to apply filters\"";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "\"This app needs microphone access\" ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -582,6 +706,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5B3928052D8A333800704FB8 /* MustacheModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5B3928062D8A333800704FB8 /* MustacheModel.xcdatamodel */,
+			);
+			currentVersion = 5B3928062D8A333800704FB8 /* MustacheModel.xcdatamodel */;
+			path = MustacheModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5B3927BB2D892D7000704FB8 /* Project object */;
 }
