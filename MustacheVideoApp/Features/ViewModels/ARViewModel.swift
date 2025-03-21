@@ -75,6 +75,9 @@ class ARViewModel: NSObject, ObservableObject, ARSessionDelegate {
             stopRecording()
         }
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.isRecording = false
+            }
     }
     
     func updateMustache(imageName: String) {

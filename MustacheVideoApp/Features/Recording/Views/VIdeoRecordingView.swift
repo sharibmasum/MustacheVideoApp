@@ -132,17 +132,6 @@ struct VideoRecordingView: View {
                 .padding(.top, 50)
             }
         }
-        .alert(isPresented: $showingSaveDialog) {
-            Alert(
-                title: Text("Save Recording"),
-                message: Text("Enter a tag for this recording"),
-                dismissButton: .default(Text("OK")) {
-                    // Save recording to Core Data
-                    saveRecording()
-                    presentationMode.wrappedValue.dismiss()
-                }
-            )
-        }
         .overlay(
             Group {
                 if showingSaveDialog {
@@ -199,43 +188,58 @@ struct VideoRecordingView: View {
     private func saveRecording() {
         guard let videoURL = arViewModel.lastRecordingURL else { return }
         
-        // Generate thumbnail
-        let thumbnail = generateThumbnail(from: videoURL)
-        
-        // Create a new Recording entity
-        let newRecording = Recording(context: viewContext)
-        newRecording.id = UUID()
-        newRecording.videoURL = videoURL.lastPathComponent
-        newRecording.duration = arViewModel.recordingDuration
-        newRecording.tag = recordingTag.isEmpty ? "Untitled" : recordingTag
-        newRecording.date = Date()
-        
-        if let thumbnail = thumbnail, let imageData = thumbnail.jpegData(compressionQuality: 0.7) {
-            newRecording.thumbnail = imageData
-        }
-        
-        do {
-            try viewContext.save()
-        } catch {
-            print("Error saving recording: \(error)")
+     
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let thumbnail = self.generateThumbnail(from: videoURL)
+            
+            let newRecording = Recording(context: self.viewContext)
+            newRecording.id = UUID()
+            newRecording.videoURL = videoURL.lastPathComponent
+            newRecording.duration = self.arViewModel.recordingDuration
+            newRecording.tag = self.recordingTag.isEmpty ? "Untitled" : self.recordingTag
+            newRecording.date = Date()
+            
+            if let thumbnail = thumbnail, let imageData = thumbnail.jpegData(compressionQuality: 0.7) {
+                newRecording.thumbnail = imageData
+            }
+            
+            do {
+                try self.viewContext.save()
+            } catch {
+                print("Error saving recording: \(error)")
+            }
         }
     }
-    
     
     private func generateThumbnail(from videoURL: URL) -> UIImage? {
-        let asset = AVAsset(url: videoURL)
-        let imageGenerator = AVAssetImageGenerator(asset: asset)
-        imageGenerator.appliesPreferredTrackTransform = true
+        // Try UIVideoEditorController's thumbnail generation method
+        let asset = AVURLAsset(url: videoURL)
+        let generator = AVAssetImageGenerator(asset: asset)
+        generator.appliesPreferredTrackTransform = true
+        generator.maximumSize = CGSize(width: 300, height: 300) // Adjust size as needed
+        
+        
+        var actualTime = CMTime.zero
         
         do {
-            let cgImage = try imageGenerator.copyCGImage(at: CMTime(seconds: 0, preferredTimescale: 1), actualTime: nil)
+
+            let cgImage = try generator.copyCGImage(at: CMTime(seconds: 0.1, preferredTimescale: 600), actualTime: &actualTime)
             return UIImage(cgImage: cgImage)
         } catch {
-            print("Error generating thumbnail: \(error)")
-            return nil
+            print("First attempt failed: \(error.localizedDescription)")
+            
+            do {
+                let cgImage = try generator.copyCGImage(at: CMTime(seconds: 1.0, preferredTimescale: 600), actualTime: &actualTime)
+                return UIImage(cgImage: cgImage)
+            } catch {
+                print("Second attempt failed: \(error.localizedDescription)")
+                
+            
+                return UIImage(systemName: "video.fill")
+            }
         }
     }
-    
+
     private func timeString(_ duration: TimeInterval) -> String {
         let minutes = Int(duration) / 60
         let seconds = Int(duration) % 60
