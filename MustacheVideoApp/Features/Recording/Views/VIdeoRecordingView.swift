@@ -24,9 +24,7 @@ struct VideoRecordingView: View {
         ZStack {
             ARViewContainer(arViewModel: arViewModel, currentMustache: mustacheOptions[currentMustacheIndex])
                 .edgesIgnoringSafeArea(.all)
-            
-            
-            // this will be replaced by the ar view later
+        
             
             VStack {
                 Spacer()
@@ -60,7 +58,6 @@ struct VideoRecordingView: View {
             }
             
             HStack {
-                // back button
                 
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
@@ -72,7 +69,6 @@ struct VideoRecordingView: View {
                 
                 Spacer()
                 
-                // record button placeholder (for now)
                 Button(action: {
                     if arViewModel.isRecording {
                         arViewModel.stopRecording()
@@ -93,7 +89,7 @@ struct VideoRecordingView: View {
                 }
                 
                 Spacer()
-                // gallery button
+
                 
                 Button(action: {
                     arViewModel.stopSession()
@@ -187,9 +183,8 @@ struct VideoRecordingView: View {
     
     private func saveRecording() {
         guard let videoURL = arViewModel.lastRecordingURL else { return }
-        var thumbnail = ThumbnailGenerator.snapshotFromARView(arViewModel.arView)
+        var thumbnail = ThumbnailGenerator.snapshotFromARView(arViewModel.arView) // something wrong here
         
-        // Create and save the recording entity with the snapshot thumbnail
         let newRecording = Recording(context: viewContext)
         newRecording.id = UUID()
         newRecording.videoURL = videoURL.lastPathComponent
@@ -197,12 +192,10 @@ struct VideoRecordingView: View {
         newRecording.tag = recordingTag.isEmpty ? "Untitled" : recordingTag
         newRecording.date = Date()
         
-        // Save the snapshot thumbnail if available
         if let thumbnail = thumbnail, let imageData = thumbnail.jpegData(compressionQuality: 0.7) {
             newRecording.thumbnail = imageData
         }
         
-        // Save the recording to Core Data
         do {
             try viewContext.save()
             presentationMode.wrappedValue.dismiss()
@@ -211,8 +204,7 @@ struct VideoRecordingView: View {
         }
         
     }
-    
-    
+
     private func timeString(_ duration: TimeInterval) -> String {
         let minutes = Int(duration) / 60
         let seconds = Int(duration) % 60

@@ -15,6 +15,7 @@ class ARViewModel: NSObject, ObservableObject, ARSessionDelegate {
     @Published var isRecording = false
     @Published var recordingDuration: TimeInterval = 0
     @Published var lastRecordingURL: URL?
+    @Published var isUsingFrontCamera = true
     
     private var mustacheEntity: ModelEntity?
     private var faceAnchor: AnchorEntity?
@@ -33,25 +34,37 @@ class ARViewModel: NSObject, ObservableObject, ARSessionDelegate {
     private func setupARView() {
         arView.session.delegate = self
         
-        // creating video recorder
+        
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
+        doubleTapGesture.numberOfTapsRequired = 2
+        arView.addGestureRecognizer(doubleTapGesture)
+    
         videoRecorder = ARVideoRecorder(arView: arView)
     }
     
+    @objc private func handleDoubleTap() {
+        isUsingFrontCamera.toggle()
+        stopSession()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.startSession()
+        }
+    }
+    
     func checkPermissions() {
-           AVCaptureDevice.requestAccess(for: .video) { granted in
-               DispatchQueue.main.async {
-                   if granted {
-                       AVCaptureDevice.requestAccess(for: .audio) { audioGranted in
-                           DispatchQueue.main.async {
-                               if audioGranted {
-                                   self.startSession()
-                               }
-                           }
-                       }
-                   }
-               }
-           }
-       }
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            DispatchQueue.main.async {
+                if granted {
+                    AVCaptureDevice.requestAccess(for: .audio) { audioGranted in
+                        DispatchQueue.main.async {
+                            if audioGranted {
+                                self.startSession()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     func startSession() {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
@@ -60,17 +73,13 @@ class ARViewModel: NSObject, ObservableObject, ARSessionDelegate {
             let configuration = ARFaceTrackingConfiguration()
             configuration.isLightEstimationEnabled = true
             
-            // Start the AR session
             self.arView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
             
-            // Create face anchor and update UI on main thread
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                // Creating a face anchor
                 self.faceAnchor = AnchorEntity(.face)
                 self.arView.scene.addAnchor(self.faceAnchor!)
                 
-                // Adding initial mustache
                 self.updateMustache(imageName: self.currentMustacheName)
             }
         }
@@ -84,49 +93,55 @@ class ARViewModel: NSObject, ObservableObject, ARSessionDelegate {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.isRecording = false
-            }
+            self.isRecording = false
+        }
     }
     
     func updateMustache(imageName: String) {
-        if imageName == currentMustacheName && mustacheEntity != nil {
-            return
-        }
-        
-        // if there is an existing mustache
         mustacheEntity?.removeFromParent()
-        // creating new mustache
-        let material = SimpleMaterial(color: .white, roughness: 0.5, isMetallic: false)
-        let mustacheMesh = MeshResource.generatePlane(width: mustacheWidth, height: mustacheHeight)
-        mustacheEntity = ModelEntity(mesh: mustacheMesh, materials: [material])
+        currentMustacheName = imageName
         
-        // loading the texture
+        let planeSize = SIMD2<Float>(mustacheWidth, mustacheHeight)
+        let planeMesh = MeshResource.generatePlane(width: planeSize.x, height: planeSize.y)
+        
         if let texture = try? TextureResource.load(named: imageName) {
-            var material = SimpleMaterial()
-            material.baseColor = MaterialColorParameter.texture(texture)
-            material.metallic = 0.0
-            material.roughness = 1.0
-            mustacheEntity?.model?.materials = [material]
+            var unlitMaterial = UnlitMaterial()
+            unlitMaterial.color = .init(tint: .white.withAlphaComponent(1.0), texture: .init(texture))
+            mustacheEntity = ModelEntity(mesh: planeMesh, materials: [unlitMaterial])
+            mustacheEntity?.position = SIMD3<Float>(0, -0.025, 0.06)
+            faceAnchor?.addChild(mustacheEntity!)
         }
         
-        // position the mustache
-        mustacheEntity?.position = SIMD3<Float>(0, -0.025, 0.06)
-        
-        // add face to anchor
-        faceAnchor?.addChild(mustacheEntity!)
+        //        if imageName == currentMustacheName && mustacheEntity != nil {
+        //                return
+        //            }
+        //            mustacheEntity?.removeFromParent()
+        //            let mustacheMesh = MeshResource.generatePlane(width: mustacheWidth, height: mustacheHeight)
+        //
+        //            if let texture = try? TextureResource.load(named: imageName) {
+        //                var material = SimpleMaterial()
+        //                material.color.tint = UIColor(white: 1.0, alpha: 0.0)
+        //                material.metallic = 0.0
+        //                material.roughness = 1.0
+        //                material.blending = .alpha
+        //
+        //                mustacheEntity = ModelEntity(mesh: mustacheMesh, materials: [material])
+        //                mustacheEntity?.position = SIMD3<Float>(0, -0.025, 0.06)
+        //                faceAnchor?.addChild(mustacheEntity!)
+        //                currentMustacheName = imageName
+        //            }
     }
+    
     
     func startRecording() {
         isRecording = true
         recordingDuration = 0
         
-        // Start recording timer on main thread
         recordingTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             self.recordingDuration += 0.1
         }
         
-        // Start video recording on background thread
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
             self.videoRecorder?.startRecording()
@@ -139,20 +154,19 @@ class ARViewModel: NSObject, ObservableObject, ARSessionDelegate {
         recordingTimer?.invalidate()
         
         videoRecorder?.stopRecording { [weak self] url in
-                   guard let self = self, let url = url else { return }
-                   self.lastRecordingURL = url
-               }
-           }
+            guard let self = self, let url = url else { return }
+            self.lastRecordingURL = url
+        }
+    }
     
     func discardRecording() {
-          guard let url = lastRecordingURL else { return }
-          
-          // Delete recording file
-          do {
-              try FileManager.default.removeItem(at: url)
-              lastRecordingURL = nil
-          } catch {
-              print("Error deleting recording: \(error)")
-          }
-      }
+        guard let url = lastRecordingURL else { return }
+        
+        do {
+            try FileManager.default.removeItem(at: url)
+            lastRecordingURL = nil
+        } catch {
+            print("Error deleting recording: \(error)")
+        }
+    }
 }

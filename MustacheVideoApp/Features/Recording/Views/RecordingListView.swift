@@ -36,23 +36,19 @@ struct RecordingListView: View {
             .padding()
         }
         .onAppear {
-            // Request notification permissions if needed
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
         }
     }
     
     private func deleteRecording(_ recording: Recording) {
-        // Delete the video file
         if let videoURLString = recording.videoURL {
             let documentsDirectory = FileManager.default.temporaryDirectory
             let fileURL = documentsDirectory.appendingPathComponent(videoURLString)
             try? FileManager.default.removeItem(at: fileURL)
         }
         
-        // Delete from Core Data
         viewContext.delete(recording)
         
-        // Save context
         do {
             try viewContext.save()
         } catch {

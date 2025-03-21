@@ -24,6 +24,7 @@
 		5B39280B2D8A523900704FB8 /* ARVideoRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39280A2D8A523900704FB8 /* ARVideoRecorder.swift */; };
 		5B39280D2D8CE47500704FB8 /* RecordingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39280C2D8CE47500704FB8 /* RecordingCell.swift */; };
 		5B39280F2D8CF5E500704FB8 /* ThumbnailGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39280E2D8CF5E500704FB8 /* ThumbnailGenerator.swift */; };
+		5B3928112D8D087900704FB8 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3928102D8D087900704FB8 /* VideoPlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		5B39280A2D8A523900704FB8 /* ARVideoRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARVideoRecorder.swift; sourceTree = "<group>"; };
 		5B39280C2D8CE47500704FB8 /* RecordingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingCell.swift; sourceTree = "<group>"; };
 		5B39280E2D8CF5E500704FB8 /* ThumbnailGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailGenerator.swift; sourceTree = "<group>"; };
+		5B3928102D8D087900704FB8 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 				5B3927FB2D8931A900704FB8 /* VIdeoRecordingView.swift */,
 				5B3927FD2D8931BC00704FB8 /* ARViewContainer.swift */,
 				5B3927FF2D8931C900704FB8 /* RecordingListView.swift */,
+				5B3928102D8D087900704FB8 /* VideoPlayerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				5B3927FE2D8931BC00704FB8 /* ARViewContainer.swift in Sources */,
 				5B3928072D8A333800704FB8 /* MustacheModel.xcdatamodeld in Sources */,
 				5B3927C72D892D7000704FB8 /* MustacheVideoAppApp.swift in Sources */,
+				5B3928112D8D087900704FB8 /* VideoPlayerView.swift in Sources */,
 				5B3927FC2D8931A900704FB8 /* VIdeoRecordingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
