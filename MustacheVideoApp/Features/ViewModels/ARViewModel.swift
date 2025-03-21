@@ -54,18 +54,26 @@ class ARViewModel: NSObject, ObservableObject, ARSessionDelegate {
        }
     
     func startSession() {
-        let configuration = ARFaceTrackingConfiguration()
-        configuration.isLightEstimationEnabled = true
-        
-        // starting the ar session
-        arView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        
-        // creating a face anchor
-        faceAnchor = AnchorEntity(.face)
-        arView.scene.addAnchor(faceAnchor!)
-        
-        // adding inital mustache
-        updateMustache(imageName: currentMustacheName)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            
+            let configuration = ARFaceTrackingConfiguration()
+            configuration.isLightEstimationEnabled = true
+            
+            // Start the AR session
+            self.arView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+            
+            // Create face anchor and update UI on main thread
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                // Creating a face anchor
+                self.faceAnchor = AnchorEntity(.face)
+                self.arView.scene.addAnchor(self.faceAnchor!)
+                
+                // Adding initial mustache
+                self.updateMustache(imageName: self.currentMustacheName)
+            }
+        }
     }
     
     func stopSession () {
@@ -112,14 +120,17 @@ class ARViewModel: NSObject, ObservableObject, ARSessionDelegate {
         isRecording = true
         recordingDuration = 0
         
-        // start recording timer
+        // Start recording timer on main thread
         recordingTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             self.recordingDuration += 0.1
         }
         
-        videoRecorder?.startRecording()
-        
+        // Start video recording on background thread
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            self.videoRecorder?.startRecording()
+        }
     }
     
     

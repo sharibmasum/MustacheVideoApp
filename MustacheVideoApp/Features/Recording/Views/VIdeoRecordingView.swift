@@ -187,59 +187,32 @@ struct VideoRecordingView: View {
     
     private func saveRecording() {
         guard let videoURL = arViewModel.lastRecordingURL else { return }
+        var thumbnail = ThumbnailGenerator.snapshotFromARView(arViewModel.arView)
         
-     
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            let thumbnail = self.generateThumbnail(from: videoURL)
-            
-            let newRecording = Recording(context: self.viewContext)
-            newRecording.id = UUID()
-            newRecording.videoURL = videoURL.lastPathComponent
-            newRecording.duration = self.arViewModel.recordingDuration
-            newRecording.tag = self.recordingTag.isEmpty ? "Untitled" : self.recordingTag
-            newRecording.date = Date()
-            
-            if let thumbnail = thumbnail, let imageData = thumbnail.jpegData(compressionQuality: 0.7) {
-                newRecording.thumbnail = imageData
-            }
-            
-            do {
-                try self.viewContext.save()
-            } catch {
-                print("Error saving recording: \(error)")
-            }
+        // Create and save the recording entity with the snapshot thumbnail
+        let newRecording = Recording(context: viewContext)
+        newRecording.id = UUID()
+        newRecording.videoURL = videoURL.lastPathComponent
+        newRecording.duration = arViewModel.recordingDuration
+        newRecording.tag = recordingTag.isEmpty ? "Untitled" : recordingTag
+        newRecording.date = Date()
+        
+        // Save the snapshot thumbnail if available
+        if let thumbnail = thumbnail, let imageData = thumbnail.jpegData(compressionQuality: 0.7) {
+            newRecording.thumbnail = imageData
         }
+        
+        // Save the recording to Core Data
+        do {
+            try viewContext.save()
+            presentationMode.wrappedValue.dismiss()
+        } catch {
+            print("Error saving recording: \(error)")
+        }
+        
     }
     
-    private func generateThumbnail(from videoURL: URL) -> UIImage? {
-        // Try UIVideoEditorController's thumbnail generation method
-        let asset = AVURLAsset(url: videoURL)
-        let generator = AVAssetImageGenerator(asset: asset)
-        generator.appliesPreferredTrackTransform = true
-        generator.maximumSize = CGSize(width: 300, height: 300) // Adjust size as needed
-        
-        
-        var actualTime = CMTime.zero
-        
-        do {
-
-            let cgImage = try generator.copyCGImage(at: CMTime(seconds: 0.1, preferredTimescale: 600), actualTime: &actualTime)
-            return UIImage(cgImage: cgImage)
-        } catch {
-            print("First attempt failed: \(error.localizedDescription)")
-            
-            do {
-                let cgImage = try generator.copyCGImage(at: CMTime(seconds: 1.0, preferredTimescale: 600), actualTime: &actualTime)
-                return UIImage(cgImage: cgImage)
-            } catch {
-                print("Second attempt failed: \(error.localizedDescription)")
-                
-            
-                return UIImage(systemName: "video.fill")
-            }
-        }
-    }
-
+    
     private func timeString(_ duration: TimeInterval) -> String {
         let minutes = Int(duration) / 60
         let seconds = Int(duration) % 60

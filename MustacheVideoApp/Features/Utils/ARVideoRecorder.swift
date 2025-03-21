@@ -103,14 +103,49 @@ class ARVideoRecorder: NSObject {
     func stopRecording(completion: @escaping (URL?) -> Void) {
         // Stop capturing
         captureSession?.stopRunning()
+        arView.session.delegate = nil
+        
+        // Check if we have a valid writer
+        guard let videoWriter = videoWriter, videoWriter.status != .failed else {
+            print("Video writer is in invalid state: \(String(describing: videoWriter?.status.rawValue))")
+            completion(nil)
+            return
+        }
         
         // Finish writing
         videoWriterInput?.markAsFinished()
         audioInput?.markAsFinished()
         
-        videoWriter?.finishWriting { [weak self] in
-            guard let self = self else { return }
-            completion(self.videoWriter?.outputURL)
+        // Make sure the video is properly saved
+        videoWriter.finishWriting { [weak self] in
+            guard let self = self, let url = self.videoWriter?.outputURL else {
+                completion(nil)
+                return
+            }
+            
+            // Copy to a more permanent location if needed
+            let documentsPath = FileManager.default.temporaryDirectory
+            let finalURL = documentsPath.appendingPathComponent("\(UUID().uuidString).mov")
+            
+            do {
+                if FileManager.default.fileExists(atPath: finalURL.path) {
+                    try FileManager.default.removeItem(at: finalURL)
+                }
+                
+                try FileManager.default.copyItem(at: url, to: finalURL)
+                print("Successfully saved video to: \(finalURL.path)")
+                
+                // Important: Call completion on the main thread
+                DispatchQueue.main.async {
+                    completion(finalURL)
+                }
+            } catch {
+                print("Error copying video file: \(error)")
+                // Return the original URL if copy fails
+                DispatchQueue.main.async {
+                    completion(url)
+                }
+            }
         }
     }
 }

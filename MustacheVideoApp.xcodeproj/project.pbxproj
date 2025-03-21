@@ -23,6 +23,7 @@
 		5B3928092D8A4FE400704FB8 /* ARViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3928082D8A4FE400704FB8 /* ARViewModel.swift */; };
 		5B39280B2D8A523900704FB8 /* ARVideoRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39280A2D8A523900704FB8 /* ARVideoRecorder.swift */; };
 		5B39280D2D8CE47500704FB8 /* RecordingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39280C2D8CE47500704FB8 /* RecordingCell.swift */; };
+		5B39280F2D8CF5E500704FB8 /* ThumbnailGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B39280E2D8CF5E500704FB8 /* ThumbnailGenerator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		5B3928082D8A4FE400704FB8 /* ARViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewModel.swift; sourceTree = "<group>"; };
 		5B39280A2D8A523900704FB8 /* ARVideoRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARVideoRecorder.swift; sourceTree = "<group>"; };
 		5B39280C2D8CE47500704FB8 /* RecordingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingCell.swift; sourceTree = "<group>"; };
+		5B39280E2D8CF5E500704FB8 /* ThumbnailGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailGenerator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				5B39280A2D8A523900704FB8 /* ARVideoRecorder.swift */,
+				5B39280E2D8CF5E500704FB8 /* ThumbnailGenerator.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 			files = (
 				5B3928092D8A4FE400704FB8 /* ARViewModel.swift in Sources */,
 				5B39280D2D8CE47500704FB8 /* RecordingCell.swift in Sources */,
+				5B39280F2D8CF5E500704FB8 /* ThumbnailGenerator.swift in Sources */,
 				5B3927C92D892D7000704FB8 /* ContentView.swift in Sources */,
 				5B39280B2D8A523900704FB8 /* ARVideoRecorder.swift in Sources */,
 				5B3928042D8A240B00704FB8 /* PersistenceController.swift in Sources */,
